@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Franqui — Soporte inteligente para redes</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eeeae3;
+    --bg2: #e4dfd6;
+    --surface: #f9f7f4;
+    --surface2: #f0ece5;
+    --ink: #18181b;
+    --ink2: #3a3a3f;
+    --muted: #888480;
+    --accent: #d4f53c;
+    --accent-dark: #b8d820;
+    --chat-bot: #18181b;
+    --chat-user: #f9f7f4;
+    --border: rgba(24,24,27,0.1);
+    --border2: rgba(24,24,27,0.1);
+    --border3: rgba(24,24,27,0.06);
+    --pill-bg: rgba(24,24,27,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    background: var(--ink);
+    color: var(--surface);
+    padding: 8px 18px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-nav {
+    background: var(--ink);
+    color: var(--surface);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-nav:hover { opacity: 0.82; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 100px;
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    background: var(--pill-bg);
+    color: var(--ink);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    padding: 100px 48px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .hero-left {}
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--pill-bg);
+    border: 1px solid var(--border2);
+    color: var(--ink2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: #3db854;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #3db85430;
+    animation: pulse 2.5s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 2px #3db85430; }
+    50% { box-shadow: 0 0 0 5px #3db85415; }
+  }
+
+  h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+    line-height: 1.03;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.05s ease both;
+  }
+
+  .highlight-word {
+    background: var(--accent);
+    color: var(--ink);
+    padding: 2px 10px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 40px;
+    font-weight: 400;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  /* HERO FORM */
+  .hero-form {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 460px;
+    animation: fadeUp 0.6s 0.15s ease both;
+    box-shadow: 0 4px 32px rgba(20,24,20,0.06);
+  }
+
+  .form-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .form-field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .form-field input, .form-field select {
+    background: var(--bg);
+    border: 1.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .form-field input:focus, .form-field select:focus {
+    border-color: var(--ink);
+  }
+
+  .form-field input::placeholder { color: var(--muted); }
+
+  .btn-submit {
+    background: var(--ink);
+    color: var(--surface);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 13px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    letter-spacing: -0.02em;
+    width: 100%;
+  }
+
+  .btn-submit:hover { opacity: 0.85; }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* HERO CHAT */
+
+  .hero-cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .btn-hero {
+    background: var(--ink);
+    color: var(--surface);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .btn-hero:hover { opacity: 0.82; transform: translateY(-1px); }
+
+  .btn-hero-ghost {
+    background: transparent;
+    color: var(--ink2);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 14px 24px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 1.5px solid var(--border2);
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-hero-ghost:hover { border-color: var(--ink); background: var(--pill-bg); }
+
+  .hero-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .hero-right {
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-chat {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(20,24,20,0.1);
+    max-width: 480px;
+    margin-left: auto;
+  }
+
+  .hchat-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #161c18;
+  }
+
+  .hchat-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: -0.02em;
+    color: #e8ede8;
+  }
+
+  .hchat-live {
+    background: var(--accent);
+    color: var(--ink);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: -0.01em;
+  }
+
+  .hchat-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #1e2420;
+    min-height: 280px;
+  }
+
+  .hchat-msg {
+    display: flex;
+    gap: 8px;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  .hchat-msg.user { flex-direction: row-reverse; }
+
+  .hchat-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.855rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  .hchat-msg.bot .hchat-bubble {
+    background: var(--chat-bot);
+    color: #e8ede8;
+    border-bottom-left-radius: 4px;
+  }
+
+  .hchat-msg.user .hchat-bubble {
+    background: var(--accent);
+    color: #18181b;
+    font-weight: 500;
+    border-bottom-right-radius: 4px;
+  }
+
+  .hchat-ticket {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 6px;
+  }
+
+  .hchat-ticket-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: #7a9a7a;
+    margin-top: 4px;
+  }
+
+  .hchat-ticket-id {
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: #e8ede8;
+    letter-spacing: -0.01em;
+  }
+
+  .hchat-badge {
+    background: var(--accent);
+    color: var(--ink);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+
+  .hchat-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .hchat-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    color: #c8d8c8;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .hchat-chip:hover, .hchat-chip.sel {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #18181b;
+  }
+
+  .hchat-input-row {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    gap: 8px;
+    background: #161c18;
+  }
+
+  .hchat-input {
+    flex: 1;
+    background: #2a322a;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 9px 16px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.835rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .hchat-input {
+    color: #e8ede8;
+  }
+  .hchat-input:focus { border-color: rgba(255,255,255,0.3); }
+  .hchat-input::placeholder { color: #6a7a6a; }
+
+  .hchat-send {
+    width: 36px; height: 36px;
+    background: var(--ink);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+
+  .hchat-send:hover { opacity: 0.8; }
+
+  .typing-dots {
+    display: flex; gap: 3px;
+    padding: 10px 14px;
+    background: var(--chat-bot);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+
+  .typing-dots span {
+    width: 5px; height: 5px;
+    background: #8fa08f;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  /* DIVIDER */
+  .divider-bar {
+    border-top: 1px solid var(--border2);
+    border-bottom: 1px solid var(--border2);
+    background: var(--bg2);
+    padding: 28px 48px;
+    overflow: hidden;
+  }
+
+  .divider-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .divider-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .divider-line {
+    width: 1px; height: 20px;
+    background: var(--border2);
+    flex-shrink: 0;
+  }
+
+  .divider-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .dpill {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    color: var(--ink2);
+    font-size: 0.825rem;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .dpill:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+
+  /* SECTIONS */
+  .section-wrap {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 96px 48px;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 18px; height: 1.5px;
+    background: var(--muted);
+  }
+
+  h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  .sec-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 500px;
+    margin-bottom: 56px;
+  }
+
+  /* PROBLEM CARDS */
+  .prob-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border2);
+    border: 1.5px solid var(--border2);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .prob-card {
+    background: var(--surface);
+    padding: 32px 28px;
+    transition: background 0.2s;
+  }
+
+  .prob-card:hover { background: var(--bg); }
+
+  .prob-icon { font-size: 1.5rem; margin-bottom: 14px; }
+
+  .prob-card h3 {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .prob-card p {
+    color: var(--muted);
+    font-size: 0.835rem;
+    line-height: 1.6;
+  }
+
+  /* HOW IT WORKS */
+  .how-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .steps { display: flex; flex-direction: column; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border2);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--muted);
+    min-width: 24px;
+    padding-top: 3px;
+    letter-spacing: 0.04em;
+    transition: color 0.25s;
+  }
+
+  .step.active .step-num { color: var(--ink); }
+
+  .step-content h3 {
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--ink2);
+    transition: color 0.25s;
+  }
+
+  .step.active .step-content h3 { color: var(--ink); }
+
+  .step.active { padding-left: 8px; }
+
+  .step-left-bar {
+    width: 3px;
+    border-radius: 2px;
+    background: transparent;
+    transition: background 0.25s;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+
+  .step.active .step-left-bar { background: var(--accent); }
+
+  .step-content p { color: var(--muted); font-size: 0.845rem; line-height: 1.6; }
+
+  /* STATIC CHAT in HOW section */
+  .static-chat {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(20,24,20,0.08);
+  }
+
+  /* FEATURES */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .feat-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 18px;
+    padding: 28px;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+
+  .feat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(20,24,20,0.08);
+    border-color: rgba(20,24,20,0.18);
+  }
+
+  .feat-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  .feat-card h3 {
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .feat-card p {
+    color: var(--muted);
+    font-size: 0.825rem;
+    line-height: 1.65;
+  }
+
+  /* INTEGRATIONS */
+  .integ-section {
+    background: var(--ink);
+    padding: 96px 48px;
+  }
+
+  .integ-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .integ-section .section-tag { color: #8fa08f; }
+  .integ-section .section-tag::before { background: #8fa08f; }
+  .integ-section h2 { color: #e8ede8; }
+  .integ-section .sec-sub { color: #7a8a7a; max-width: 480px; }
+
+  .integ-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .integ-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 24px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .integ-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(200,241,53,0.3);
+  }
+
+  .integ-card:last-child {
+    border-color: rgba(200,241,53,0.25);
+    background: rgba(200,241,53,0.06);
+  }
+
+  .integ-icon {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .integ-card h3 {
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: -0.02em;
+    color: #e8ede8;
+    margin-bottom: 7px;
+  }
+
+  .integ-card p {
+    color: #7a8a7a;
+    font-size: 0.815rem;
+    line-height: 1.6;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 96px 48px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-form-wrap {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 8px 32px rgba(20,24,20,0.06);
+  }
+
+  .cf-title {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+
+  .cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 14px;
+    width: 100%;
+  }
+
+  .cf-field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .cf-field input,
+  .cf-field textarea {
+    background: var(--bg);
+    border: 1.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+    width: 100%;
+  }
+
+  .cf-field input:focus,
+  .cf-field textarea:focus { border-color: var(--ink); }
+
+  .cf-field input::placeholder,
+  .cf-field textarea::placeholder { color: var(--muted); }
+
+  .btn-cf {
+    width: 100%;
+    background: var(--ink);
+    color: var(--surface);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.02em;
+    padding: 13px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+  }
+
+  .btn-cf:hover { opacity: 0.85; }
+
+  .contact-left h2 { margin-bottom: 20px; }
+  .contact-left p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 32px; }
+
+  .contact-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cbullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .cbullet-icon {
+    width: 30px; height: 30px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .cbullet-text {
+    font-size: 0.875rem;
+    color: var(--ink2);
+    line-height: 1.55;
+  }
+
+  .cbullet-text strong { font-weight: 600; color: var(--ink); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1.5px solid var(--border2);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    background: var(--bg2);
+  }
+
+  footer p { color: var(--muted); font-size: 0.825rem; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 90px 20px 48px; gap: 40px; }
+    .hero-chat { margin: 0 auto; }
+    .section-wrap, .contact-section { padding: 64px 20px; }
+    .prob-grid { grid-template-columns: 1fr 1fr; }
+    .how-grid { grid-template-columns: 1fr; gap: 48px; }
+    .feat-grid { grid-template-columns: 1fr 1fr; }
+    .integ-section { padding: 64px 20px; }
+    .integ-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .divider-bar { padding: 20px; }
+    footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">franqui<span style="color:var(--accent);font-size:1.4rem;line-height:0;position:relative;top:2px;">·</span></div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#como-funciona" class="nav-link">Cómo funciona</a>
+      <a href="#integraciones" class="nav-link">Integraciones</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+    <a href="#contacto" class="btn-nav">Hablá con nosotros</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Soporte automatizado por WhatsApp</span>
+      </div>
+      <h1>El soporte de tu red,<br>sin el <span class="highlight-word">caos</span>.</h1>
+      <p class="hero-sub">Tus franquiciados reportan problemas por WhatsApp. Franqui los clasifica, prioriza y deriva automáticamente. Sin mails perdidos, sin llamadas sin respuesta.</p>
+      <div class="hero-cta-row">
+        <a href="#contacto" class="btn-hero">Hablar con nosotros →</a>
+        <a href="#como-funciona" class="btn-hero-ghost">Ver cómo funciona</a>
+      </div>
+      <p class="hero-note">Sin compromiso. Te respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-chat">
+        <div class="hchat-header">
+          <span class="hchat-title">Franqui · Soporte</span>
+          <span class="hchat-live">Demo en vivo</span>
+        </div>
+        <div class="hchat-body" id="heroChat"></div>
+        <div class="hchat-input-row">
+          <input type="text" class="hchat-input" id="heroChatInput" placeholder="Escribí tu mensaje..." onkeydown="if(event.key==='Enter') heroSend()">
+          <button class="hchat-send" onclick="heroSend()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8ede8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVIDER: chain types -->
+<div class="divider-bar">
+  <div class="divider-inner">
+    <span class="divider-label">Se adapta a</span>
+    <div class="divider-line"></div>
+    <div class="divider-pills">
+      <span class="dpill">🍔 Gastronómicas</span>
+      <span class="dpill">🥩 Carnicerías</span>
+      <span class="dpill">💈 Estética & Belleza</span>
+      <span class="dpill">🏋️ Fitness</span>
+      <span class="dpill">🏥 Salud</span>
+      <span class="dpill">🛒 Retail</span>
+      <span class="dpill">📦 Logística</span>
+      <span class="dpill">🏫 Educación</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<div class="section-wrap">
+  <div class="section-tag">El problema</div>
+  <h2>Así gestionan el soporte<br>la mayoría de redes hoy</h2>
+  <p class="sec-sub">Cada franquiciado resuelve los problemas como puede. El resultado es caos, demoras y problemas sin resolver.</p>
+  <div class="prob-grid">
+    <div class="prob-card">
+      <div class="prob-icon">📱</div>
+      <h3>WhatsApp personal del supervisor</h3>
+      <p>Los mensajes se mezclan con lo personal, no hay trazabilidad y los urgentes se pierden.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📧</div>
+      <h3>Mails que nadie lee a tiempo</h3>
+      <p>El franquiciado manda un mail, espera 48 horas, reenvía, llama. Nadie sabe el estado del problema.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">📊</div>
+      <h3>Cero métricas</h3>
+      <p>No sabés qué local tiene más problemas, cuánto tarda tu equipo, ni cuáles son los recurrentes.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon">🔄</div>
+      <h3>Problemas repetidos</h3>
+      <p>El mismo problema en 5 locales distintos porque nunca se documentó ni escaló correctamente.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CÓMO FUNCIONA -->
+<div class="section-wrap" style="padding-top:0;" id="como-funciona">
+  <div class="section-tag">Cómo funciona</div>
+  <h2>Del problema al ticket<br>en segundos</h2>
+  <p class="sec-sub">El franquiciado no aprende nada nuevo. Usa el WhatsApp que ya tiene. Franqui hace el resto.</p>
+  <div class="how-grid">
+    <div class="steps">
+      <div class="step active" onclick="setStep(0)">
+        <div class="step-left-bar"></div>
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>El franquiciado manda el problema por WhatsApp</h3>
+          <p>Sin formularios, sin apps nuevas. Escribe o manda una foto desde el local.</p>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(1)">
+        <div class="step-left-bar"></div>
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>El bot clasifica con un flujo predefinido</h3>
+          <p>Guía al usuario con opciones. Las categorías son las tuyas.</p>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(2)">
+        <div class="step-left-bar"></div>
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Se genera un ticket con número de caso</h3>
+          <p>El franquiciado recibe confirmación. El equipo ve el ticket en su panel.</p>
+        </div>
+      </div>
+      <div class="step" onclick="setStep(3)">
+        <div class="step-left-bar"></div>
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>La casa central responde y cierra</h3>
+          <p>Todo queda registrado. Métricas, tiempos de resolución, locales con más problemas.</p>
+        </div>
+      </div>
+    </div>
+    <!-- static chat -->
+    <div class="static-chat">
+      <div class="hchat-header">
+        <span class="hchat-title">Franqui · Soporte</span>
+        <span class="hchat-live">En línea</span>
+      </div>
+      <div class="hchat-body" style="min-height:260px; padding:20px; gap:12px; display:flex; flex-direction:column; background:#1e2420;">
+        <div class="hchat-msg bot"><div class="hchat-bubble">¡Hola! Soy Franqui 👋 ¿Desde qué local nos escribís?</div></div>
+        <div class="hchat-msg user"><div class="hchat-bubble">Local 7 — Palermo</div></div>
+        <div class="hchat-msg bot">
+          <div>
+            <div class="hchat-bubble">Perfecto, Local 7 ✓ ¿Qué tipo de problema tenés?</div>
+            <div class="hchat-chip-row">
+              <span class="hchat-chip sel">🔧 Operativo urgente</span>
+              <span class="hchat-chip">📋 Administrativo</span>
+              <span class="hchat-chip">📣 Marketing</span>
+              <span class="hchat-chip">👥 RRHH</span>
+            </div>
+          </div>
+        </div>
+        <div class="hchat-msg user"><div class="hchat-bubble">Se rompió la cámara de frío</div></div>
+        <div class="hchat-msg bot">
+          <div>
+            <div class="hchat-bubble">🚨 Ticket generado con prioridad ALTA.</div>
+            <div class="hchat-ticket">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span class="hchat-ticket-id">#TK-3821</span>
+                <span class="hchat-badge">URGENTE</span>
+              </div>
+              <div class="hchat-ticket-row"><span>Local</span><span>7 — Palermo</span></div>
+              <div class="hchat-ticket-row"><span>Resp. estimada</span><span>30 min</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section-wrap" style="padding-top:0;">
+  <div class="section-tag">Funcionalidades</div>
+  <h2>Todo lo que necesita<br>tu operación</h2>
+  <p class="sec-sub">Los flujos se diseñan a medida de cada red. No es un chatbot genérico — es tu proceso de soporte convertido en bot.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🔀</div>
+      <h3>Derivación automática</h3>
+      <p>Cada problema va al área correcta: operaciones, administración, marketing o RRHH. Las categorías son las tuyas.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🚨</div>
+      <h3>Alertas de urgencias</h3>
+      <p>Los problemas operativos críticos escalan de inmediato y notifican al responsable vía WhatsApp o email.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <h3>Métricas de tu operación</h3>
+      <p>Tiempos de resolución, locales con más tickets, categorías frecuentes. Todo en el panel incluido.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">👤</div>
+      <h3>Agentes humanos</h3>
+      <p>El bot resuelve lo automático y escala al agente correcto cuando el problema requiere atención humana.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔗</div>
+      <h3>Identificación automática</h3>
+      <p>Cada local está registrado. El sistema sabe desde qué sucursal escribe el usuario.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📁</div>
+      <h3>Historial completo</h3>
+      <p>Todos los tickets de cada local quedan guardados. Identificás patrones y locales con problemas recurrentes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- INTEGRACIONES -->
+<div class="integ-section" id="integraciones">
+  <div class="integ-inner">
+    <div class="section-tag">Integraciones</div>
+    <h2>Se conecta con las<br>herramientas que ya usás</h2>
+    <p class="sec-sub" style="color:#7a8a7a; margin-bottom:48px;">Franqui no reemplaza tu stack — se integra. Si tiene API, se puede conectar.</p>
+    <div class="integ-grid">
+      <div class="integ-card">
+        <div class="integ-icon">📧</div>
+        <h3>Gmail y correo</h3>
+        <p>Los tickets generan emails al área responsable automáticamente. Sin salir de la bandeja que ya usan.</p>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon">📋</div>
+        <h3>Google Sheets</h3>
+        <p>Cada ticket puede registrarse en una hoja de cálculo. Simple, sin software adicional.</p>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon">🎫</div>
+        <h3>Ticketeras</h3>
+        <p>Si ya tenés un sistema de tickets, Franqui se integra y crea los casos ahí.</p>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon">📱</div>
+        <h3>Notificaciones WhatsApp</h3>
+        <p>Los responsables reciben alertas en su WhatsApp cuando les llega un ticket urgente.</p>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon">🗂️</div>
+        <h3>CRMs y sistemas internos</h3>
+        <p>Salesforce, HubSpot, sistemas propios.</p>
+      </div>
+      <div class="integ-card">
+        <div class="integ-icon">⚡</div>
+        <h3>¿Usás otra herramienta?</h3>
+        <p>Lo evaluamos. Cada implementación se diseña según tu operación específica.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<div class="contact-section" id="contacto">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <div class="section-tag">Contacto</div>
+      <h2>¿Tiene sentido para<br>tu operación?</h2>
+      <p>Contanos de tu red y te armamos una propuesta a medida. Sin compromiso, sin presión.</p>
+      <div class="contact-bullets">
+        <div class="cbullet">
+          <div class="cbullet-icon">⚡</div>
+          <div class="cbullet-text"><strong>Implementación en 2 semanas.</strong> <span>Desde el primer contacto hasta el bot operando en WhatsApp.</span></div>
+        </div>
+        <div class="cbullet">
+          <div class="cbullet-icon">🔧</div>
+          <div class="cbullet-text"><strong>Flujos a medida.</strong> <span>Diseñamos el bot según tu operación, no al revés.</span></div>
+        </div>
+        <div class="cbullet">
+          <div class="cbullet-icon">📈</div>
+          <div class="cbullet-text"><strong>Mejoras continuas.</strong> <span>El bot evoluciona con tu red. Mantenimiento y optimizaciones incluidas.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <div class="cf-title">Mandanos tu consulta</div>
+      <div class="cf-field">
+        <label>Nombre</label>
+        <input type="text" id="cfName" placeholder="Tu nombre">
+      </div>
+      <div class="cf-field">
+        <label>Email</label>
+        <input type="email" id="cfEmail" placeholder="vos@empresa.com">
+      </div>
+      <div class="cf-field">
+        <label>Cadena / tipo de negocio</label>
+        <input type="text" id="cfChain" placeholder="Ej: carnicerías, hamburgueserías...">
+      </div>
+      <div class="cf-field">
+        <label>Cantidad de locales</label>
+        <input type="text" id="cfLocs" placeholder="Ej: 20">
+      </div>
+      <div class="cf-field">
+        <label>¿Cómo gestionan el soporte hoy? <span style="color:var(--muted);font-weight:400;">(opcional)</span></label>
+        <textarea id="cfMsg" rows="3" placeholder="WhatsApp personal, mails, llamadas..."></textarea>
+      </div>
+      <button class="btn-cf" onclick="submitContactForm()">Enviar consulta →</button>
+      <div id="cfMsg2" style="display:none; margin-top:12px; padding:12px 16px; background:var(--accent); border-radius:10px; font-size:0.85rem; font-weight:600; color:var(--ink); text-align:center;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-size:1rem; padding:6px 14px;">franqui<span style="color:var(--accent);font-size:1.3rem;line-height:0;position:relative;top:2px;">·</span></div>
+  <p>Soporte inteligente para redes de franquicias · 2026</p>
+</footer>
+
+<script>
+// ─── STEP SELECTOR ───────────────────────────────────────────────────────────
+function setStep(i) {
+  document.querySelectorAll('.step').forEach((s, idx) => s.classList.toggle('active', idx === i));
+}
+
+// ─── HERO CHAT ────────────────────────────────────────────────────────────────
+let chatState = 'init', localName = '';
+
+function hAddMsg(text, isUser) {
+  const body = document.getElementById('heroChat');
+  const d = document.createElement('div');
+  d.className = `hchat-msg ${isUser ? 'user' : 'bot'}`;
+  d.innerHTML = `<div class="hchat-bubble">${text}</div>`;
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+
+function hTyping(cb) {
+  const body = document.getElementById('heroChat');
+  const t = document.createElement('div');
+  t.className = 'hchat-msg bot'; t.id = 'htyping';
+  t.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
+  body.appendChild(t); body.scrollTop = body.scrollHeight;
+  setTimeout(() => { t.remove(); cb(); }, 850);
+}
+
+function hChips(opts, cb) {
+  const body = document.getElementById('heroChat');
+  setTimeout(() => {
+    const d = document.createElement('div');
+    d.className = 'hchat-msg bot'; d.id = 'hchips';
+    const row = opts.map(o => `<span class="hchat-chip" onclick="hSelectChip('${o}',this)">${o}</span>`).join('');
+    d.innerHTML = `<div><div class="hchat-bubble">${'Seleccioná una opción:'}</div><div class="hchat-chip-row">${row}</div></div>`;
+    body.appendChild(d); body.scrollTop = body.scrollHeight;
+  }, 900);
+  window._chipCb = cb;
+}
+
+function hSelectChip(val, el) {
+  document.querySelectorAll('#hchips .hchat-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  setTimeout(() => {
+    document.getElementById('hchips')?.remove();
+    hAddMsg(val, true);
+    if (window._chipCb) window._chipCb(val);
+  }, 280);
+}
+
+function hTicket(isUrgent) {
+  const id = Math.floor(Math.random() * 9000) + 1000;
+  const body = document.getElementById('heroChat');
+  const d = document.createElement('div');
+  d.className = 'hchat-msg bot';
+  const urgLabel = 'URGENTE';
+  const normLabel = 'NORMAL';
+  const localLabel = 'Local';
+  const respLabel = 'Resp. estimada';
+  d.innerHTML = `<div>
+    <div class="hchat-bubble">${isUrgent ? ('🚨 Ticket URGENTE generado.') : ('✅ Ticket generado.')}</div>
+    <div class="hchat-ticket">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span class="hchat-ticket-id">#TK-${id}</span>
+        <span class="hchat-badge">${isUrgent ? urgLabel : normLabel}</span>
+      </div>
+      <div class="hchat-ticket-row"><span>${localLabel}</span><span>${localName||'—'}</span></div>
+      <div class="hchat-ticket-row"><span>${respLabel}</span><span>${isUrgent?'30 min':'2–4 hs'}</span></div>
+    </div>
+  </div>`;
+  setTimeout(() => {
+    body.appendChild(d); body.scrollTop = body.scrollHeight;
+    chatState = 'done';
+    setTimeout(() => hTyping(() => {
+      hAddMsg('¿Tenés otro problema para reportar?', false);
+      chatState = 'init';
+    }), 1200);
+  }, 400);
+}
+
+function heroProcess(text) {
+  const t = text.toLowerCase();
+  if (chatState === 'init') {
+    chatState = 'askType'; localName = text;
+    hTyping(() => {
+      hAddMsg(`${'Perfecto,'} ${text} ✓ ${'¿Qué tipo de problema tenés?'}`, false);
+      const opts = ['🔧 Operativo urgente','📋 Administrativo','📣 Marketing','👥 RRHH'];
+      hChips(opts, val => {
+        window._isUrgent = val.includes('Operativo');
+        chatState = 'getDetail';
+        hTyping(() => hAddMsg('Describí brevemente el problema.', false));
+      });
+    });
+    return;
+  }
+  if (chatState === 'getDetail') { chatState = 'processing'; hTicket(window._isUrgent); return; }
+  if (chatState === 'done') { chatState = 'init'; heroProcess(text); return; }
+  hTyping(() => hAddMsg('¿Desde qué local nos escribís?', false));
+  chatState = 'init';
+}
+
+function heroSend() {
+  const inp = document.getElementById('heroChatInput');
+  const txt = inp.value.trim(); if (!txt) return;
+  inp.value = '';
+  hAddMsg(txt, true);
+  heroProcess(txt);
+}
+
+// ─── FORMS ───────────────────────────────────────────────────────────────────
+function submitContactForm() {
+  const name = document.getElementById('cfName').value;
+  const email = document.getElementById('cfEmail').value;
+  const chain = document.getElementById('cfChain').value;
+  const locs = document.getElementById('cfLocs').value;
+  const msg = document.getElementById('cfMsg').value;
+  if (!name || !email) return;
+  const sub = encodeURIComponent(`Consulta Franqui — ${name}`);
+  const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\nCadena: ${chain}\nLocales: ${locs}\n\n${msg}`);
+  window.location.href = `mailto:gazzaagustin@gmail.com?subject=${sub}&body=${body}`;
+  const m = document.getElementById('cfMsg2');
+  m.style.display = 'block';
+  m.textContent = '✓ ¡Listo! Se abrió tu correo. Te respondemos pronto.';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.onload = () => {
+  setTimeout(() => hTyping(() => hAddMsg('¡Hola! Soy Franqui 👋 ¿Desde qué local nos escribís?', false)), 600);
+};
+</script>
+</body>
+</html>
