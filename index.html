@@ -1144,86 +1144,175 @@
     gap: 6px;
   }
 
-  /* ROBOT MASCOT */
-  .robot-widget {
+  /* CHATBOT POPUP */
+  .cb-btn {
     position: fixed;
-    left: 72%;
-    top: 38%;
+    bottom: 24px;
+    right: 24px;
     z-index: 500;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: left 1s cubic-bezier(0.4, 0, 0.2, 1),
-                top  1s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .robot-floater {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: robotFly 3.2s ease-in-out infinite;
-  }
-
-  .robot-bubble {
-    position: absolute;
-    bottom: calc(100% + 10px);
-    background: var(--ink);
-    color: #e8ede8;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    line-height: 1.55;
-    padding: 12px 16px;
-    border-radius: 14px;
-    max-width: 230px;
-    width: max-content;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
-    pointer-events: auto;
-    cursor: pointer;
-    white-space: normal;
-    transition: opacity 0.35s ease, transform 0.35s ease;
-    opacity: 0;
-    transform: translateY(6px) scale(0.95);
-  }
-
-  .robot-bubble.right { left: 0; border-bottom-left-radius: 4px; }
-  .robot-bubble.left  { right: 0; border-bottom-right-radius: 4px; }
-
-  .robot-bubble.visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  .robot-bubble.hiding {
-    opacity: 0;
-    transform: translateY(6px) scale(0.95);
-  }
-
-  .robot-avatar {
     width: 130px;
     height: 130px;
-    pointer-events: auto;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    padding: 0;
   }
-
-  .robot-avatar img {
+  .cb-btn:hover { transform: scale(1.1); }
+  .cb-btn img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    display: block;
-    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  }
+  .cb-btn-icon { display: none; }
+
+  .cb-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: 499;
+    width: 340px;
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    max-height: 520px;
+    transform: translateY(16px) scale(0.97);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+  }
+  .cb-panel.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
   }
 
-  @keyframes robotFly {
-    0%   { transform: translateY(0px)   rotate(0deg); }
-    25%  { transform: translateY(-14px) rotate(-3deg); }
-    60%  { transform: translateY(-7px)  rotate(2deg); }
-    100% { transform: translateY(0px)   rotate(0deg); }
+  .cb-header {
+    background: #161c18;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .cb-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #222;
+  }
+  .cb-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 5%; }
+  .cb-hinfo { flex: 1; }
+  .cb-hname { font-weight: 700; font-size: 0.9rem; color: #e8ede8; letter-spacing: -0.02em; }
+  .cb-hstatus { font-size: 0.72rem; color: #7a9a7a; margin-top: 1px; display: flex; align-items: center; gap: 5px; }
+  .cb-dot { width: 6px; height: 6px; background: #3db854; border-radius: 50%; }
+  .cb-close {
+    background: none; border: none; color: #7a9a7a; cursor: pointer;
+    font-size: 1.2rem; line-height: 1; padding: 4px; transition: color 0.2s;
+  }
+  .cb-close:hover { color: #e8ede8; }
+
+  .cb-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #1e2420;
   }
 
-  @media (max-width: 900px) {
-    .robot-widget { display: none; }
+  .cb-msg { display: flex; gap: 8px; animation: fadeUp 0.3s ease both; }
+  .cb-msg.user { flex-direction: row-reverse; }
+  .cb-bubble {
+    max-width: 82%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+  .cb-msg.bot  .cb-bubble { background: var(--ink); color: #e8ede8; border-bottom-left-radius: 4px; }
+  .cb-msg.user .cb-bubble { background: var(--accent); color: #18181b; font-weight: 500; border-bottom-right-radius: 4px; }
+
+  .cb-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 4px;
+    animation: fadeUp 0.3s ease both;
+  }
+  .cb-chip {
+    background: rgba(255,255,255,0.07);
+    border: 1.5px solid rgba(255,255,255,0.14);
+    color: #c8d8c8;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 6px 13px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Inter', sans-serif;
+  }
+  .cb-chip:hover { background: var(--accent); border-color: var(--accent); color: #18181b; }
+
+  .cb-typing {
+    display: flex; gap: 4px; padding: 10px 14px;
+    background: var(--ink); border-radius: 14px; border-bottom-left-radius: 4px;
+    width: fit-content;
+  }
+  .cb-typing span {
+    width: 5px; height: 5px; background: #8fa08f; border-radius: 50%;
+    animation: bounce 1.2s ease infinite;
+  }
+  .cb-typing span:nth-child(2) { animation-delay: 0.15s; }
+  .cb-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+  .cb-footer {
+    padding: 10px 14px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    background: #161c18;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .cb-input {
+    flex: 1;
+    background: #2a322a;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 9px 16px;
+    color: #e8ede8;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.835rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .cb-input:focus { border-color: rgba(255,255,255,0.3); }
+  .cb-input::placeholder { color: #6a7a6a; }
+  .cb-send {
+    width: 36px; height: 36px;
+    background: var(--ink);
+    border: none; border-radius: 50%;
+    cursor: pointer; display: flex;
+    align-items: center; justify-content: center;
+    transition: opacity 0.2s; flex-shrink: 0;
+  }
+  .cb-send:hover { opacity: 0.8; }
+
+  @media (max-width: 600px) {
+    .cb-panel { width: calc(100vw - 32px); right: 16px; bottom: 106px; }
+    .cb-btn { bottom: 14px; right: 14px; width: 74px; height: 74px; }
   }
 
   /* ── TABLET (≤900px) ── */
@@ -1621,28 +1710,30 @@
     </div>
     <div class="contact-form-wrap">
       <div class="cf-title">Mandanos tu consulta</div>
-      <div class="cf-field">
-        <label>Nombre</label>
-        <input type="text" id="cfName" placeholder="Tu nombre">
-      </div>
-      <div class="cf-field">
-        <label>Email</label>
-        <input type="email" id="cfEmail" placeholder="vos@empresa.com">
-      </div>
-      <div class="cf-field">
-        <label>Cadena / tipo de negocio</label>
-        <input type="text" id="cfChain" placeholder="Ej: carnicerías, hamburgueserías...">
-      </div>
-      <div class="cf-field">
-        <label>Cantidad de locales</label>
-        <input type="text" id="cfLocs" placeholder="Ej: 20">
-      </div>
-      <div class="cf-field">
-        <label>¿Cómo gestionan el soporte hoy? <span style="color:var(--muted);font-weight:400;">(opcional)</span></label>
-        <textarea id="cfMsg" rows="3" placeholder="WhatsApp personal, mails, llamadas..."></textarea>
-      </div>
-      <button class="btn-cf" onclick="submitContactForm()">Enviar consulta →</button>
-      <div id="cfMsg2" style="display:none; margin-top:12px; padding:12px 16px; background:var(--accent); border-radius:10px; font-size:0.85rem; font-weight:600; color:var(--ink); text-align:center;"></div>
+      <form id="contact-form" onsubmit="submitContactForm(event)">
+        <div class="cf-field">
+          <label>Nombre</label>
+          <input type="text" name="nombre" id="cfName" placeholder="Tu nombre" required>
+        </div>
+        <div class="cf-field">
+          <label>Email</label>
+          <input type="email" name="email" id="cfEmail" placeholder="vos@empresa.com" required>
+        </div>
+        <div class="cf-field">
+          <label>Cadena / tipo de negocio</label>
+          <input type="text" name="cadena" id="cfChain" placeholder="Ej: carnicerías, hamburgueserías...">
+        </div>
+        <div class="cf-field">
+          <label>Cantidad de locales</label>
+          <input type="text" name="locales" id="cfLocs" placeholder="Ej: 20">
+        </div>
+        <div class="cf-field">
+          <label>¿Cómo gestionan el soporte hoy? <span style="color:var(--muted);font-weight:400;">(opcional)</span></label>
+          <textarea name="soporte_actual" id="cfMsg" rows="3" placeholder="WhatsApp personal, mails, llamadas..."></textarea>
+        </div>
+        <button type="submit" class="btn-cf" id="cfBtn">Enviar consulta →</button>
+        <div id="cfMsg2" style="display:none; margin-top:12px; padding:12px 16px; background:var(--accent); border-radius:10px; font-size:0.85rem; font-weight:600; color:var(--ink); text-align:center;"></div>
+      </form>
     </div>
   </div>
 </div>
@@ -1809,96 +1900,195 @@ function initSheets() {
 }
 
 // ─── FORMS ───────────────────────────────────────────────────────────────────
-function submitContactForm() {
-  const name = document.getElementById('cfName').value;
-  const email = document.getElementById('cfEmail').value;
-  const chain = document.getElementById('cfChain').value;
-  const locs = document.getElementById('cfLocs').value;
-  const msg = document.getElementById('cfMsg').value;
-  if (!name || !email) return;
-  const sub = encodeURIComponent(`Consulta Franqui — ${name}`);
-  const body = encodeURIComponent(`Nombre: ${name}\nEmail: ${email}\nCadena: ${chain}\nLocales: ${locs}\n\n${msg}`);
-  window.location.href = `mailto:gazzaagustin@gmail.com?subject=${sub}&body=${body}`;
-  const m = document.getElementById('cfMsg2');
-  m.style.display = 'block';
-  m.textContent = '✓ ¡Listo! Se abrió tu correo. Te respondemos pronto.';
+async function submitContactForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cfBtn');
+  const notice = document.getElementById('cfMsg2');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch('https://formspree.io/f/xwvawnjl', {
+      method: 'POST',
+      body: new FormData(document.getElementById('contact-form')),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      document.getElementById('contact-form').reset();
+      notice.style.display = 'block';
+      notice.style.background = 'var(--accent)';
+      notice.textContent = '✓ ¡Listo! Te respondemos en menos de 24 horas.';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    notice.style.display = 'block';
+    notice.style.background = '#fce8e6';
+    notice.style.color = '#c5221f';
+    notice.textContent = 'Hubo un error al enviar. Intentá de nuevo o escribinos directamente.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar consulta →';
+  }
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 window.onload = () => {
   setTimeout(() => hTyping(() => hAddMsg('¡Hola! Soy Franqui 👋 ¿Desde qué local nos escribís?', false)), 600);
   setTimeout(initSheets, 800);
-  initRobot();
 };
 </script>
 
-<!-- ROBOT MASCOT -->
-<div class="robot-widget" id="robotWidget">
-  <div class="robot-floater" id="robotFloater">
-    <div class="robot-bubble" id="robotBubble"></div>
-    <div class="robot-avatar" id="robotAvatar">
-      <img src="robot.png" alt="Franqui bot" id="robotImg">
+<!-- CHATBOT POPUP -->
+<button class="cb-btn" id="cbBtn" aria-label="Abrir chat">
+  <img src="robot.png" alt="Franqui bot">
+</button>
+
+<div class="cb-panel" id="cbPanel">
+  <div class="cb-header">
+    <div class="cb-avatar"><img src="robot.png" alt="Franqui"></div>
+    <div class="cb-hinfo">
+      <div class="cb-hname">Franqui</div>
+      <div class="cb-hstatus"><span class="cb-dot"></span> En línea</div>
     </div>
+    <button class="cb-close" id="cbClose">✕</button>
+  </div>
+  <div class="cb-body" id="cbBody"></div>
+  <div class="cb-footer">
+    <input class="cb-input" id="cbInput" type="text" placeholder="Escribí tu consulta..." onkeydown="if(event.key==='Enter') cbSend()">
+    <button class="cb-send" onclick="cbSend()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8ede8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
   </div>
 </div>
 
 <script>
-// ─── ROBOT ────────────────────────────────────────────────────────────────────
-// El robot se mueve solo entre esquina derecha e izquierda — nunca tapa el contenido
-const robotSections = [
-  { selector: '.hero',           text: '¡Hola! 👋 Scrolleá y te cuento todo lo que puedo hacer.',             x: '94%', y: '88%', tilt:  10, side: 'left'  },
-  { selector: '#demo',           text: '¡Probame acá! Escribí cualquier problema y te muestro cómo actúo.',   x:  '6%', y: '88%', tilt: -10, side: 'right' },
-  { selector: '.prob-grid',      text: '¿Te suena todo esto? Exacto. Para eso existo.',                       x: '94%', y: '88%', tilt:  10, side: 'left'  },
-  { selector: '#como-funciona',  text: 'Todo arranca con un WhatsApp. Sin apps nuevas, sin formularios.',     x:  '6%', y: '88%', tilt: -10, side: 'right' },
-  { selector: '.sheets-section', text: 'Así ve tu equipo los tickets. Organizados solos, sin copiar nada.',   x: '94%', y: '88%', tilt:  10, side: 'left'  },
-  { selector: '#integraciones',  text: 'Me conecto donde tu equipo ya trabaja. Sin cambiar nada.',            x:  '6%', y: '88%', tilt: -10, side: 'right' },
-  { selector: '#contacto',       text: '¿Llegaste hasta acá? ¡Hablemos! 😄',                                 x: '94%', y: '88%', tilt:   0, side: 'left'  },
+// ─── CHATBOT ──────────────────────────────────────────────────────────────────
+const cbFaqs = [
+  {
+    q: '¿Cómo funciona?',
+    a: 'El franquiciado manda un mensaje por WhatsApp. Yo lo guío con opciones predefinidas, clasifico el problema y notifico al área correcta. Todo sin apps nuevas ni formularios.'
+  },
+  {
+    q: '¿Cuánto tarda implementarlo?',
+    a: 'Entre 1 y 2 semanas según la complejidad de tu red. Diseñamos los flujos juntos, configuramos la integración y listo.'
+  },
+  {
+    q: '¿Mis franquiciados tienen que aprender algo?',
+    a: 'No. Usan el WhatsApp que ya tienen. El cambio es invisible para ellos — solo ven que el soporte funciona mejor.'
+  },
+  {
+    q: '¿Con qué herramientas se integra?',
+    a: 'Depende de lo que usés. Google Sheets, Gmail, sistemas de tickets, y más. Si tiene API o webhook, casi seguro podemos conectarlo.'
+  },
+  {
+    q: '¿Puedo personalizar las categorías?',
+    a: 'Sí, totalmente. Las categorías, flujos y respuestas las definimos según tu operación. Nada es genérico.'
+  },
+  {
+    q: '¿Cuánto cuesta?',
+    a: 'Depende del tamaño de tu red y la integración. Hablemos y lo definimos juntos — sin compromisos.'
+  },
 ];
 
-function initRobot() {
-  const widget  = document.getElementById('robotWidget');
-  const bubble  = document.getElementById('robotBubble');
-  const avatar  = document.getElementById('robotAvatar');
-  let currentMsg = '';
-  let hideTimer  = null;
+const cbKeywords = [
+  { words: ['funciona','funcionar','como','cómo','qué hace','que hace'], idx: 0 },
+  { words: ['tiempo','tarda','semana','implementa','cuanto','cuánto tiempo'], idx: 1 },
+  { words: ['aprender','cambiar','difícil','dificil','franquiciado','usuario'], idx: 2 },
+  { words: ['integra','herramienta','sheets','excel','crm','sistema','conecta'], idx: 3 },
+  { words: ['categoria','categoría','personaliz','custom','flujo'], idx: 4 },
+  { words: ['costo','cuesta','precio','cobran','plan','cuanto','cuánto'], idx: 5 },
+];
 
-  function flyTo({ x, y, tilt, side }) {
-    widget.style.left = x;
-    widget.style.top  = y;
-    avatar.style.transform = `rotate(${tilt}deg)`;
-    bubble.className = `robot-bubble ${side}`;
+(function initCb() {
+  const btn   = document.getElementById('cbBtn');
+  const panel = document.getElementById('cbPanel');
+  const body  = document.getElementById('cbBody');
+  const close = document.getElementById('cbClose');
+  const input = document.getElementById('cbInput');
+  let opened = false;
+
+  function addMsg(text, isUser) {
+    const wrap = document.createElement('div');
+    wrap.className = `cb-msg ${isUser ? 'user' : 'bot'}`;
+    const bub = document.createElement('div');
+    bub.className = 'cb-bubble';
+    bub.textContent = text;
+    wrap.appendChild(bub);
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
   }
 
-  function showMsg(section) {
-    flyTo(section);
-    if (section.text === currentMsg) return;
-    currentMsg = section.text;
-    clearTimeout(hideTimer);
-    bubble.classList.remove('visible');
+  function addTyping(cb) {
+    const wrap = document.createElement('div');
+    wrap.className = 'cb-msg bot';
+    wrap.id = 'cbTyping';
+    wrap.innerHTML = '<div class="cb-typing"><span></span><span></span><span></span></div>';
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
     setTimeout(() => {
-      bubble.textContent = section.text;
-      bubble.classList.add('visible');
-      hideTimer = setTimeout(() => bubble.classList.remove('visible'), 5500);
-    }, 380);
+      wrap.remove();
+      cb();
+      body.scrollTop = body.scrollHeight;
+    }, 900);
   }
 
-  avatar.addEventListener('click', () => {
-    bubble.classList.toggle('visible');
-    clearTimeout(hideTimer);
-    if (bubble.classList.contains('visible'))
-      hideTimer = setTimeout(() => bubble.classList.remove('visible'), 5500);
-  });
+  function addChips() {
+    const row = document.createElement('div');
+    row.className = 'cb-chips';
+    row.id = 'cbChips';
+    cbFaqs.forEach((faq, i) => {
+      const chip = document.createElement('button');
+      chip.className = 'cb-chip';
+      chip.textContent = faq.q;
+      chip.onclick = () => selectFaq(i);
+      row.appendChild(chip);
+    });
+    body.appendChild(row);
+    body.scrollTop = body.scrollHeight;
+  }
 
-  robotSections.forEach(section => {
-    const el = document.querySelector(section.selector);
-    if (!el) return;
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) showMsg(section);
-    }, { threshold: 0.2 }).observe(el);
-  });
+  function selectFaq(i) {
+    document.getElementById('cbChips')?.remove();
+    addMsg(cbFaqs[i].q, true);
+    addTyping(() => {
+      addMsg(cbFaqs[i].a, false);
+      setTimeout(addChips, 400);
+    });
+  }
 
-  setTimeout(() => showMsg(robotSections[0]), 1200);
-}
+  function greet() {
+    addTyping(() => {
+      addMsg('¡Hola! 👋 Soy el bot de Franqui. ¿En qué te puedo ayudar?', false);
+      setTimeout(addChips, 300);
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    panel.classList.toggle('open');
+    if (!opened) { opened = true; greet(); }
+  });
+  close.addEventListener('click', () => panel.classList.remove('open'));
+
+  window.cbSend = function() {
+    const txt = input.value.trim();
+    if (!txt) return;
+    input.value = '';
+    document.getElementById('cbChips')?.remove();
+    addMsg(txt, true);
+    const low = txt.toLowerCase();
+    const match = cbKeywords.find(k => k.words.some(w => low.includes(w)));
+    addTyping(() => {
+      if (match) {
+        addMsg(cbFaqs[match.idx].a, false);
+      } else {
+        addMsg('Buena pregunta. Te recomiendo hablar directamente con el equipo — podemos responder todo en una llamada corta.', false);
+      }
+      setTimeout(addChips, 400);
+    });
+  };
+})();
 </script>
 </body>
 </html>
