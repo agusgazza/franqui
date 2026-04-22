@@ -7,9 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #eeeae3;
-    --bg2: #e4dfd6;
-    --surface: #f9f7f4;
+    --bg: #F2ECE8;
+    --bg2: #EAE3DE;
+    --surface: #FAF8F6;
     --surface2: #f0ece5;
     --ink: #18181b;
     --ink2: #3a3a3f;
@@ -309,6 +309,19 @@
 
   .hero-right {
     animation: fadeUp 0.7s 0.2s ease both;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-img {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    border-radius: 24px;
+    mix-blend-mode: normal;
   }
 
   .hero-chat {
@@ -958,20 +971,241 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* SHEETS WIDGET */
+  .sheets-section {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 48px 96px;
+  }
+
+  .sheets-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .sheets-label::before {
+    content: '';
+    width: 18px; height: 1.5px;
+    background: var(--muted);
+  }
+
+  .sheets-header-text h2 { margin-bottom: 12px; }
+  .sheets-header-text p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 40px;
+  }
+
+  .sheets-mock {
+    background: #fff;
+    border: 1.5px solid #dadce0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(20,24,20,0.1);
+  }
+
+  .sheets-toolbar {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .sheets-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #3c4043;
+  }
+
+  .sheets-logo-icon {
+    width: 20px; height: 20px;
+    background: #0f9d58;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sheets-logo-icon svg { width: 12px; height: 12px; }
+
+  .sheets-filename {
+    font-size: 0.8rem;
+    color: #3c4043;
+    font-weight: 500;
+  }
+
+  .sheets-dot {
+    width: 4px; height: 4px;
+    background: #0f9d58;
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+    margin-left: auto;
+  }
+
+  .sheets-live-text {
+    font-size: 0.7rem;
+    color: #0f9d58;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .sheets-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .sheets-table thead tr {
+    background: #1e7e34;
+  }
+
+  .sheets-table thead th {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    white-space: nowrap;
+  }
+
+  .sheets-table thead th:last-child { border-right: none; }
+
+  .sheets-table tbody tr {
+    border-bottom: 1px solid #e8eaed;
+    animation: rowIn 0.4s ease both;
+    background: #fff;
+  }
+
+  .sheets-table tbody tr:hover { background: #f6fdf8; }
+  .sheets-table tbody tr:nth-child(even) { background: #f8fffe; }
+  .sheets-table tbody tr:nth-child(even):hover { background: #f0fdf6; }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateY(-6px); background: #e6f9ee; }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .sheets-table tbody td {
+    padding: 9px 14px;
+    color: #3c4043;
+    border-right: 1px solid #e8eaed;
+    white-space: nowrap;
+  }
+
+  .sheets-table tbody td:last-child { border-right: none; }
+
+  .sheets-id { color: #888; font-size: 0.72rem; font-weight: 600; }
+
+  .stag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+  }
+
+  .stag-urgente { background: #fce8e6; color: #c5221f; }
+  .stag-normal  { background: #e8f0fe; color: #1a73e8; }
+  .stag-bajo    { background: #e6f4ea; color: #137333; }
+
+  .stag-abierto  { background: #fff3e0; color: #e37400; }
+  .stag-proceso  { background: #e8f0fe; color: #1a73e8; }
+  .stag-cerrado  { background: #e6f4ea; color: #137333; }
+
+  .sheets-time { color: #9aa0a6; font-size: 0.72rem; }
+
+  .sheets-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    padding: 8px 16px;
+    font-size: 0.7rem;
+    color: #9aa0a6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── TABLET (≤900px) ── */
   @media (max-width: 900px) {
     nav { padding: 14px 20px; }
     .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 90px 20px 48px; gap: 40px; }
-    .hero-chat { margin: 0 auto; }
-    .section-wrap, .contact-section { padding: 64px 20px; }
+
+    .hero { grid-template-columns: 1fr; padding: 90px 24px 48px; gap: 32px; }
+    .hero-img { max-width: 420px; margin: 0 auto; }
+    .hero-right { justify-content: center; }
+
+    .section-wrap, .contact-section { padding: 64px 24px; }
     .prob-grid { grid-template-columns: 1fr 1fr; }
     .how-grid { grid-template-columns: 1fr; gap: 48px; }
     .feat-grid { grid-template-columns: 1fr 1fr; }
-    .integ-section { padding: 64px 20px; }
+    .integ-section { padding: 64px 24px; }
     .integ-grid { grid-template-columns: 1fr 1fr; }
     .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-    .divider-bar { padding: 20px; }
+    .divider-bar { padding: 20px 24px; }
     footer { padding: 24px 20px; flex-direction: column; text-align: center; }
+  }
+
+  /* ── MOBILE (≤600px) ── */
+  @media (max-width: 600px) {
+    nav { padding: 12px 16px; }
+    .btn-nav { font-size: 0.8rem; padding: 9px 16px; }
+
+    .hero { padding: 80px 16px 40px; gap: 24px; }
+    .hero-badge { font-size: 0.72rem; }
+    h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+    .hero-sub { font-size: 0.9rem; margin-bottom: 28px; }
+    .hero-cta-row { flex-direction: column; gap: 10px; }
+    .btn-hero, .btn-hero-ghost { text-align: center; width: 100%; padding: 14px 20px; }
+    .hero-img { max-width: 100%; border-radius: 16px; }
+
+    .section-wrap, .contact-section { padding: 48px 16px; }
+    h2 { font-size: clamp(1.7rem, 7vw, 2.2rem); }
+    .sec-sub { font-size: 0.9rem; margin-bottom: 36px; }
+
+    .prob-grid { grid-template-columns: 1fr; border-radius: 16px; }
+    .prob-card { padding: 24px 20px; }
+
+    .how-grid { gap: 36px; }
+    .step { gap: 14px; }
+
+    .feat-grid { grid-template-columns: 1fr; }
+    .feat-card { padding: 22px; }
+
+    .integ-section { padding: 48px 16px; }
+    .integ-grid { grid-template-columns: 1fr; }
+
+    .hero-chat { border-radius: 18px; }
+    .hchat-body { min-height: 220px; }
+
+    .contact-form-wrap { padding: 24px 18px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    .divider-bar { padding: 16px; }
+    .divider-inner { flex-wrap: wrap; gap: 10px; }
+    .divider-line { display: none; }
+    .divider-pills { gap: 6px; }
+    .dpill { font-size: 0.75rem; padding: 5px 12px; }
+
+    footer { padding: 20px 16px; gap: 10px; font-size: 0.8rem; }
   }
 </style>
 </head>
@@ -999,7 +1233,7 @@
         <span>Soporte automatizado por WhatsApp</span>
       </div>
       <h1>El soporte de tu red,<br>sin el <span class="highlight-word">caos</span>.</h1>
-      <p class="hero-sub">Tus franquiciados reportan problemas por WhatsApp. Franqui los clasifica, prioriza y deriva automáticamente. Sin mails perdidos, sin llamadas sin respuesta.</p>
+      <p class="hero-sub">Tus franquiciados reportan problemas por WhatsApp. Franqui los organiza, clasifica y notifica al área correcta. Sin mails perdidos, sin llamadas sin respuesta.</p>
       <div class="hero-cta-row">
         <a href="#contacto" class="btn-hero">Hablar con nosotros →</a>
         <a href="#como-funciona" class="btn-hero-ghost">Ver cómo funciona</a>
@@ -1007,19 +1241,7 @@
       <p class="hero-note">Sin compromiso. Te respondemos en menos de 24 horas.</p>
     </div>
     <div class="hero-right">
-      <div class="hero-chat">
-        <div class="hchat-header">
-          <span class="hchat-title">Franqui · Soporte</span>
-          <span class="hchat-live">Demo en vivo</span>
-        </div>
-        <div class="hchat-body" id="heroChat"></div>
-        <div class="hchat-input-row">
-          <input type="text" class="hchat-input" id="heroChatInput" placeholder="Escribí tu mensaje..." onkeydown="if(event.key==='Enter') heroSend()">
-          <button class="hchat-send" onclick="heroSend()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8ede8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-      </div>
+      <img src="hero.png" alt="Franqui — Gestiona tus franquicias" class="hero-img">
     </div>
   </div>
 </section>
@@ -1038,6 +1260,28 @@
       <span class="dpill">🛒 Retail</span>
       <span class="dpill">📦 Logística</span>
       <span class="dpill">🏫 Educación</span>
+    </div>
+  </div>
+</div>
+
+<!-- DEMO -->
+<div class="section-wrap" id="demo">
+  <div class="section-tag">Demo interactiva</div>
+  <h2>Probalo vos mismo</h2>
+  <p class="sec-sub">Así experimenta el franquiciado el soporte. Sin apps nuevas, sin formularios. Solo WhatsApp.</p>
+  <div style="display:flex; justify-content:center; margin-top:40px;">
+    <div class="hero-chat" style="width:100%; max-width:520px; margin:0;">
+      <div class="hchat-header">
+        <span class="hchat-title">Franqui · Soporte</span>
+        <span class="hchat-live">Demo en vivo</span>
+      </div>
+      <div class="hchat-body" id="heroChat"></div>
+      <div class="hchat-input-row">
+        <input type="text" class="hchat-input" id="heroChatInput" placeholder="Escribí tu mensaje..." onkeydown="if(event.key==='Enter') heroSend()">
+        <button class="hchat-send" onclick="heroSend()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e8ede8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1099,7 +1343,7 @@
         <div class="step-num">03</div>
         <div class="step-content">
           <h3>Se genera un ticket con número de caso</h3>
-          <p>El franquiciado recibe confirmación. El equipo ve el ticket en su panel.</p>
+          <p>El franquiciado recibe confirmación por WhatsApp. El equipo recibe una notificación.</p>
         </div>
       </div>
       <div class="step" onclick="setStep(3)">
@@ -1107,7 +1351,7 @@
         <div class="step-num">04</div>
         <div class="step-content">
           <h3>La casa central responde y cierra</h3>
-          <p>Todo queda registrado. Métricas, tiempos de resolución, locales con más problemas.</p>
+          <p>Todo queda registrado en la herramienta que tu equipo ya usa. Consultás el historial cuando querés.</p>
         </div>
       </div>
     </div>
@@ -1150,6 +1394,47 @@
   </div>
 </div>
 
+<!-- SHEETS WIDGET -->
+<div class="sheets-section">
+  <div class="sheets-label">El resultado</div>
+  <div class="sheets-header-text">
+    <h2>Así queda registrado<br>del lado del equipo</h2>
+    <p>Cada ticket que entra por WhatsApp queda registrado y organizado automáticamente. Dónde lo receptés — eso lo definimos juntos.</p>
+  </div>
+  <div class="sheets-mock">
+    <div class="sheets-toolbar">
+      <div class="sheets-logo">
+        <div class="sheets-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" fill="white" fill-opacity="0.9"/><line x1="3" y1="9" x2="21" y2="9" stroke="#0f9d58" stroke-width="1.5"/><line x1="3" y1="15" x2="21" y2="15" stroke="#0f9d58" stroke-width="1.5"/><line x1="9" y1="3" x2="9" y2="21" stroke="#0f9d58" stroke-width="1.5"/></svg>
+        </div>
+        <span class="sheets-filename">Tickets Franqui — Semana 17</span>
+      </div>
+      <div class="sheets-dot"></div>
+      <span class="sheets-live-text">EN VIVO</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="sheets-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Local</th>
+            <th>Categoría</th>
+            <th>Descripción</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody id="sheetsBody"></tbody>
+      </table>
+    </div>
+    <div class="sheets-footer">
+      <span>📄 Franqui_Tickets</span>
+      <span style="margin-left:auto;" id="sheetsCount">0 registros</span>
+    </div>
+  </div>
+</div>
+
 <!-- FEATURES -->
 <div class="section-wrap" style="padding-top:0;">
   <div class="section-tag">Funcionalidades</div>
@@ -1168,8 +1453,8 @@
     </div>
     <div class="feat-card">
       <div class="feat-icon">📊</div>
-      <h3>Métricas de tu operación</h3>
-      <p>Tiempos de resolución, locales con más tickets, categorías frecuentes. Todo en el panel incluido.</p>
+      <h3>Registro organizado</h3>
+      <p>Cada ticket queda registrado automáticamente donde tu equipo ya trabaja — desde una planilla hasta un sistema de gestión.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">👤</div>
@@ -1203,8 +1488,8 @@
       </div>
       <div class="integ-card">
         <div class="integ-icon">📋</div>
-        <h3>Google Sheets</h3>
-        <p>Cada ticket puede registrarse en una hoja de cálculo. Simple, sin software adicional.</p>
+        <h3>Google Sheets y similares</h3>
+        <p>Una opción simple para empezar. Los tickets se registran solos en una planilla que ya conocés.</p>
       </div>
       <div class="integ-card">
         <div class="integ-icon">🎫</div>
@@ -1217,9 +1502,9 @@
         <p>Los responsables reciben alertas en su WhatsApp cuando les llega un ticket urgente.</p>
       </div>
       <div class="integ-card">
-        <div class="integ-icon">🗂️</div>
-        <h3>CRMs y sistemas internos</h3>
-        <p>Salesforce, HubSpot, sistemas propios.</p>
+        <div class="integ-icon">🤖</div>
+        <h3>Botmaker</h3>
+        <p>La plataforma que corre el bot. Flujos, agentes y conversaciones, todo gestionado desde ahí.</p>
       </div>
       <div class="integ-card">
         <div class="integ-icon">⚡</div>
@@ -1394,6 +1679,53 @@ function heroSend() {
   heroProcess(txt);
 }
 
+// ─── SHEETS WIDGET ───────────────────────────────────────────────────────────
+const sheetsData = [
+  { local:'Local 3 — Caballito',  cat:'🔧 Operativo', desc:'Freidora sin funcionar',       prio:'urgente', est:'cerrado',  hora:'09:14' },
+  { local:'Local 7 — Palermo',    cat:'🔧 Operativo', desc:'Cámara de frío rota',           prio:'urgente', est:'proceso',  hora:'09:31' },
+  { local:'Local 12 — Belgrano',  cat:'📋 Admin',     desc:'Error en liquidación mensual',  prio:'normal',  est:'abierto',  hora:'10:02' },
+  { local:'Local 1 — Centro',     cat:'📣 Marketing', desc:'Necesito material POP',         prio:'bajo',    est:'cerrado',  hora:'10:18' },
+  { local:'Local 5 — Núñez',      cat:'👥 RRHH',      desc:'Alta empleado nuevo',           prio:'normal',  est:'cerrado',  hora:'10:45' },
+  { local:'Local 9 — Flores',     cat:'🔧 Operativo', desc:'Caja registradora bloqueada',   prio:'urgente', est:'abierto',  hora:'11:03' },
+  { local:'Local 2 — Almagro',    cat:'📋 Admin',     desc:'Factura duplicada proveedor',   prio:'normal',  est:'proceso',  hora:'11:27' },
+  { local:'Local 14 — Devoto',    cat:'📣 Marketing', desc:'Promo semana no cargada',       prio:'bajo',    est:'abierto',  hora:'11:44' },
+];
+
+function sheetsTagPrio(p) {
+  const map = { urgente:'stag-urgente', normal:'stag-normal', bajo:'stag-bajo' };
+  return `<span class="stag ${map[p]}">${p.charAt(0).toUpperCase()+p.slice(1)}</span>`;
+}
+function sheetsTagEst(e) {
+  const map = { abierto:'stag-abierto', proceso:'stag-proceso', cerrado:'stag-cerrado' };
+  const label = { abierto:'Abierto', proceso:'En proceso', cerrado:'Cerrado' };
+  return `<span class="stag ${map[e]}">${label[e]}</span>`;
+}
+
+function sheetsAddRow(i) {
+  const body = document.getElementById('sheetsBody');
+  if (!body || i >= sheetsData.length) return;
+  const d = sheetsData[i];
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="sheets-id">#TK-${3820 + i}</td>
+    <td>${d.local}</td>
+    <td>${d.cat}</td>
+    <td>${d.desc}</td>
+    <td>${sheetsTagPrio(d.prio)}</td>
+    <td>${sheetsTagEst(d.est)}</td>
+    <td class="sheets-time">${d.hora}</td>`;
+  body.appendChild(tr);
+  document.getElementById('sheetsCount').textContent = `${i + 1} registro${i > 0 ? 's' : ''}`;
+}
+
+function initSheets() {
+  let i = 0;
+  const first4 = () => { if (i < 4) { sheetsAddRow(i++); setTimeout(first4, 300); } };
+  first4();
+  let j = 4;
+  setInterval(() => { if (j < sheetsData.length) sheetsAddRow(j++); }, 3500);
+}
+
 // ─── FORMS ───────────────────────────────────────────────────────────────────
 function submitContactForm() {
   const name = document.getElementById('cfName').value;
@@ -1413,6 +1745,7 @@ function submitContactForm() {
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 window.onload = () => {
   setTimeout(() => hTyping(() => hAddMsg('¡Hola! Soy Franqui 👋 ¿Desde qué local nos escribís?', false)), 600);
+  setTimeout(initSheets, 800);
 };
 </script>
 </body>
